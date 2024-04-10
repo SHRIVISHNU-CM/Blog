@@ -1,11 +1,18 @@
 import React from 'react'
-
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Login from './Components/Login'
+import Signup from './Components/Signup'
 function App() {
   return (
     <>
-      <button
-      className='btn btn-secondary btn-square'
-      >Add</button>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/signup' element={<Signup/>} />
+
+        </Routes>
+      </BrowserRouter>
+
     </>
   )
 }
