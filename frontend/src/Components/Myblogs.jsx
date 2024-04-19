@@ -6,40 +6,49 @@ import { Link } from 'react-router-dom'
 import Blog from './Blogs/Blog'
 
 function Myblogs() {
-    const { ID } = useContext(LoginContext)
+    const { ID, setlen } = useContext(LoginContext)
     const [value, setvalue] = useState([])
     const [error, setError] = useState(null)
     const GetById = `http://localhost:3001/api/find/${ID}`
 
-    useEffect(() => {
+    
+    const fetchData = () => {
         axios.get(GetById)
             .then((res) => {
-                console.log(res.data.notes)
+                setlen(res.data.notes.length)
+                console.log(res.data.notes.length)
                 setvalue(res.data.notes)
             })
             .catch((e) => {
                 setError(e)
             })
-    }, [])
+    }
+    const HandleDrop = () => {
+        fetchData()
+    }
+    useEffect(() => {
+        fetchData()
+    }, [ID])
+
     return (
         <>
             <NavBar />
-           
-            {error? <div className='card justify-center'>
-                        <div className='card-body'>
-                            <h1 className='card-title'>Error</h1>
-                            <Link to={'/'} className='btn text-white bg-gray-500 w-36'>Go To Login</Link>
 
-                        </div>
+            {error ? <div className='card justify-center'>
+                <div className='card-body'>
+                    <h1 className='card-title'>Error</h1>
+                    <Link to={'/'} className='btn text-white bg-gray-500 w-36'>Go To Login</Link>
 
-                    </div> : (
-                    value.map((el, i) => {
-                        return (
-                            <Blog props ={el}/>
-                            
-                        )
-                    })
-                )
+                </div>
+
+            </div> : (
+                value.map((el) => {
+                    return (
+                        <Blog props={el} Ondelete={HandleDrop} />
+
+                    )
+                })
+            )
             }
         </>
     )
