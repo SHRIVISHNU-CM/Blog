@@ -26,10 +26,7 @@ function Edit() {
 
             })
     }, [GetDetails])
-    const handleChange = (e) => {
 
-        SetValues({ ...values, head: e })
-    }
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.put(UpdateAPI, values)
