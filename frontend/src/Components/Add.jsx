@@ -4,12 +4,13 @@ import 'react-quill/dist/quill.snow.css';
 import axios from "axios"
 import { LoginContext } from '../Context/UserContext';
 import NavBar from './NavBar';
+import { useNavigate } from 'react-router-dom';
 
 function Add() {
     const [value, setValue] = useState('');
     const [sub, setSub] = useState('')
-
-    const { ID } = useContext(LoginContext)
+    const navigate = useNavigate()
+    const { ID , token} = useContext(LoginContext)
     const handleChange = (e) => {
         setValue(e)
         console.log(e)
@@ -22,7 +23,8 @@ function Add() {
             author: ID
         })
             .then((res) => {
-                console.log(res)
+                console.log(res);
+                navigate('/myblogs');
             })
             .catch((e) => console.log(e))
     }
