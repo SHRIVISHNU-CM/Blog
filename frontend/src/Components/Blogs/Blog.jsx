@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import HtmlParser from 'react-html-parser'
 import axios from 'axios'
-import { Link,useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 function Blog({ props ,Ondelete}) {
   const [deleted , setDeleted] = useState(false)
-  const navigate = useNavigate()
   const HandleDrop = () => {
     axios.delete(`http://localhost:3001/api/${props._id}`)
     .then((res)=>{
