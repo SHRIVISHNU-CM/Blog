@@ -1,15 +1,14 @@
 const express = require('express')
 const Router = express.Router()
 const userOne = require('../models/userOne');
-const usertwo = require('../models/userTwo')
-
+const usertwo = require('../models/userTwo');
 
 
 //collection One
 Router.post('/api/create/', async (req, res) => {
     try {
         const name = req.body.name;
-        const findResult = await userOne.findOne({name:name})
+        const findResult = await userOne.findOne({ name: name })
         if (findResult) {
             return res.status(201).json("User already Exist")
         } else {
@@ -34,11 +33,21 @@ Router.post('/api/login', async (req, res) => {
                 message: "User not found, Enter coorect User Name"
             })
         }
-        console.log(result);
-        return res.status(200).json(result);
+         console.log(result);
+        return res.status(200).json(result)
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json(error.message)
+    }
+})
+//logout
+Router.get('/api/logut', async (req, res) => {
+    try {
+
+        return res.status(200).json('logot')
 
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
         return res.status(400).json(error.message)
     }
 })
@@ -67,15 +76,15 @@ Router.post('/api/two', async (req, res) => {
     }
 });
 //getusertwo
-Router.get('/api/usertwo/:id',async(req,res)=>{
+Router.get('/api/usertwo/:id', async (req, res) => {
     try {
         const id = req.params.id
         const result = await usertwo.findById({
-            _id:id
+            _id: id
         })
         console.log(result);
         return res.status(200).json(result)
-        
+
     } catch (error) {
         console.log(error);
         return res.status(400).json(error.message)
@@ -95,13 +104,13 @@ Router.get('/api/create', async (req, res) => {
     }
 })
 //Searh One user
-Router.get('/api/find/:id', async(req,res)=>{
+Router.get('/api/find/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await userOne.findOne({_id:id}).populate('notes')
-        if(!result){
+        const result = await userOne.findOne({ _id: id }).populate('notes')
+        if (!result) {
             return res.status(404).json("Check Id")
-        }else{
+        } else {
             console.log(result)
             return res.status(200).json(result)
         }
@@ -127,6 +136,19 @@ Router.put('/api/:id', async (req, res) => {
         return res.status(200).json(post)
     } catch (error) {
         console.log(error);
+        return res.status(400).json(error)
+    }
+})
+//update username
+Router.put('/api/profileUpdate/:id',async(req,res)=>{
+    try {
+        const username = req.body.name;
+        const id = req.params.id
+        const result = await userOne.findByIdAndUpdate({_id:id},{name:username},{new:true})
+        console.log(result);
+        return res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
         return res.status(400).json(error)
     }
 })
