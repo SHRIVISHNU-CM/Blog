@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { LoginContext } from '../Context/UserContext'
 import axios from 'axios'
 import NavBar from './NavBar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Profile() {
     const { ID } = useContext(LoginContext)
+    const navigate = useNavigate()
     const [username, setUserName] = useState({
         _id : ID
     })
@@ -32,6 +33,7 @@ function Profile() {
         axios.delete(`http://localhost:3001/api/user/${ID}`)
             .then((res) => {
                 console.log(res, "deleted")
+                navigate('/home')
 
             })
     }
