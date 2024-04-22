@@ -12,10 +12,13 @@ function Profile() {
     })
     const [Len, SetLen] = useState('')
     const [deleted, SetDeleted] = useState(false)
+    const [isloading, setloading] = useState(true)
     const Getapi = `http://localhost:3001/api/find/${ID}`
     const updatePRofile = `http://localhost:3001/api/profileUpdate/${ID}`
     useEffect(() => {
-        axios.get(Getapi)
+        const timer =setTimeout(()=>{
+            setloading(false)
+            axios.get(Getapi)
             .then((res) => {
                 console.log(res)
                 setUserName({...username,name:res.data.name})
@@ -28,7 +31,10 @@ function Profile() {
                 SetDeleted(true)
 
             })
-    }, [ID])
+        },2000)
+        return ()=>clearTimeout(timer)
+        
+    }, [ID,isloading])
     const handleDelete = () => {
         axios.delete(`http://localhost:3001/api/user/${ID}`)
             .then((res) => {
@@ -51,6 +57,14 @@ function Profile() {
         <>
             <NavBar />
             {
+                isloading? 
+                <div className="my-5 h-[300px] flex justify-center ">
+                    <div className='skeleton w-[400px]'></div>
+                   
+                </div>
+                :
+            
+            
                 deleted == true ? <div className='card justify-center'>
                     <div className='card-body'>
                         <h1 className='card-title'>Error</h1>
