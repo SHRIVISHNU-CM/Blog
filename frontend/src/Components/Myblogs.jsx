@@ -9,9 +9,10 @@ function Myblogs() {
     const { ID, setlen } = useContext(LoginContext)
     const [value, setvalue] = useState([])
     const [error, setError] = useState(null)
+    const [isloading, setloading] = useState(true)
     const GetById = `http://localhost:3001/api/find/${ID}`
 
-    
+
     const fetchData = () => {
         axios.get(GetById)
             .then((res) => {
@@ -27,14 +28,23 @@ function Myblogs() {
         fetchData()
     }
     useEffect(() => {
-        fetchData()
-    }, [ID])
+        const timmer = setTimeout(() => {
+            setloading(false)
+            fetchData()
+
+        },1000)
+
+        return ()=>clearTimeout(timmer)
+    }, [ID,isloading])
 
     return (
         <>
             <NavBar />
+            {
+                isloading? <div className='skeleton card m-3 h-[300px]'></div>:
+            
 
-            {error ? <div className='card justify-center'>
+            error ? <div className='card justify-center'>
                 <div className='card-body'>
                     <h1 className='card-title'>Error</h1>
                     <Link to={'/'} className='btn text-white bg-gray-500 w-36'>Go To Login</Link>
