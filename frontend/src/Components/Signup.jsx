@@ -13,7 +13,8 @@ function Signup() {
     axios.post(api, { name }, { withCredentials: true })
       .then((res) => {
         console.log(res)
-        navigate('/login')
+        navigate('/')
+        setname('')
 
       })
       .catch((e) => console.log(e))
