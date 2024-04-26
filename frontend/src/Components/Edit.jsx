@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar';
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function Edit() {
@@ -11,6 +11,7 @@ function Edit() {
         _id: id,
 
     })
+    const Navigate = useNavigate()
     const UpdateAPI = `http://localhost:3001/api/${id}`
     const GetDetails = `http://localhost:3001/api/usertwo/${id}`
     const DropApi = `http://localhost:3001/api/${id}`
@@ -26,12 +27,17 @@ function Edit() {
 
             })
     }, [GetDetails])
+    const handleChange = (e) => {
+
+        SetValues({ ...values, head: e })
+    }
 
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.put(UpdateAPI, values)
             .then((res) => {
                 console.log("successfully updated", res)
+                Navigate('/myblogs')
             })
             .catch((e) => console.log(e))
     }
@@ -39,6 +45,7 @@ function Edit() {
         axios.delete(DropApi)
             .then(() => {
                 console.log("deleted")
+                Navigate('/myblogs')
 
             })
             .catch((e) => console.log(e))
