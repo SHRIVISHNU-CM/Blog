@@ -1,5 +1,7 @@
 # Blog
-
+Built a blog web app with React.js, DaisyUI, Node.js, Express.js, and MongoDB. 
+It provides dark mode control features. The user may view and edit their postings, as well as see all of the 
+other users' posts
 ## Installation
 
 In terminal try this,
